@@ -3,7 +3,7 @@ from django.db import transaction
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED
-from core.abstract.viewset import AbstractViewset
+from core.abstract.viewset import AbstractViewset, AbstractBulkViewset
 from .serializer import DepartmentSerializer
 from .models import Department
 # Create your views here.
@@ -27,3 +27,6 @@ class DepartmentViewset(AbstractViewset):
         self.perform_create(serializer)
         print(serializer.data)
         return Response(serializer.data, status=HTTP_201_CREATED)
+
+class DepartmentBulkViewset(AbstractBulkViewset):
+    model_serializer = DepartmentSerializer

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.status import HTTP_201_CREATED
 from rest_framework.response import Response
-from core.abstract.viewset import AbstractViewset
+from core.abstract.viewset import AbstractViewset, AbstractBulkViewset
 from rest_framework.permissions import AllowAny
 from .serializer import CompanySerializer
 from .models import Company
@@ -25,3 +25,5 @@ class CompanyViewset(AbstractViewset):
         self.perform_create(serializer)
         return Response(serializer.data, status=HTTP_201_CREATED)
 
+class CompanyBulkViewset(AbstractBulkViewset):
+    model_serializer = CompanySerializer

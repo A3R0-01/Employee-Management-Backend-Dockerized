@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.status import HTTP_201_CREATED
-from core.abstract.viewset import AbstractViewset
+from core.abstract.viewset import AbstractViewset, AbstractBulkViewset
 from .serializer import RegistrationSerializer
 from .models import Registration
 # Create your views here.
@@ -25,3 +25,6 @@ class RegistrationViewset(AbstractViewset):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=HTTP_201_CREATED)
+
+class RegistrationBulkViewset(AbstractBulkViewset):
+    model_serializer = RegistrationSerializer

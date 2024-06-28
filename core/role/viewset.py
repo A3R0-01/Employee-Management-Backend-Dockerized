@@ -3,7 +3,7 @@ from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED
-from core.abstract.viewset import AbstractViewset
+from core.abstract.viewset import AbstractViewset, AbstractBulkViewset
 from .models import Role
 from .serializer import RoleSerializer
 # Create your views here.
@@ -41,4 +41,6 @@ class RoleTerminateViewset(AbstractViewset):
             return Response("object not found", HTTP_404_NOT_FOUND)
         self.check_object_permissions(self.request, terminatedRole)
         return terminatedRole
-    
+
+class RoleBulkViewset(AbstractBulkViewset):
+    model_serializer = RoleSerializer

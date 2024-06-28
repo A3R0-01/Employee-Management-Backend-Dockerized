@@ -3,7 +3,7 @@ from django.http import Http404
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
 from rest_framework.response import Response
-from core.abstract.viewset import AbstractViewset
+from core.abstract.viewset import AbstractViewset, AbstractBulkViewset
 from .models import Job
 from .serializer import JobSerializer
 
@@ -28,3 +28,7 @@ class JobViewset(AbstractViewset):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, HTTP_201_CREATED)
+
+
+class JobBulkViewset(AbstractBulkViewset):
+    model_serializer = JobSerializer

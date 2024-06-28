@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from core.bulkRouters import bulkurlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include("core.routers"))
+    path('api/', include("core.routers")),
+    path('api/bulk/', include(bulkurlpatterns))
 ]
