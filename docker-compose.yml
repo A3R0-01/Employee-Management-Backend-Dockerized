@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    volumes:
+      - .:/dpt
+    ports:
+      - 8000:8000
+    image: app:dpt-image
+    container_name: dpt-django-container
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+  db:
+    image: postgres
+    volumes:
+      - .data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=ProficiencyTest
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234bsrvnt
+    container_name: dpt-db-container
