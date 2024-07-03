@@ -89,9 +89,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ProficiencyTest',
         'USER': 'postgres',
-        'PASSWORD': 'bsrvnt',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'PASSWORD': '1234bsrvnt',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 

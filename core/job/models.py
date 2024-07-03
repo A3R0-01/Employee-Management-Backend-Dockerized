@@ -1,9 +1,17 @@
-from django.db import models
+from typing import Any
+from django.db import models, transaction
 from core.abstract.model import AbstractManager, AbstractModel
+from core.role.models import Role
 
 # Create your models here.
 
 class JobManager(AbstractManager):
+
+    @transaction.atomic
+    def create(self, **kwargs: Any) -> Any:
+        job = super().create(**kwargs)
+        role = Role.objects.create(Job=job, Employee=job.CurrentEmployee)
+        return job
     pass
 
 class Job(AbstractModel):
