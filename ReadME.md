@@ -79,7 +79,7 @@ services:
     environment:
       - POSTGRES_DB=ProficiencyTest
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=1234bsrvnt
+      - POSTGRES_PASSWORD=1234
     container_name: dpt-db-container
 ```
 
