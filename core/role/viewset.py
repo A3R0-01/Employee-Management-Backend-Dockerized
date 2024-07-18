@@ -3,6 +3,7 @@ from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED
+from rest_framework.exceptions import NotFound
 from core.abstract.viewset import AbstractViewset, AbstractBulkViewset
 from .models import Role
 from .serializer import RoleSerializer
@@ -18,6 +19,7 @@ class RoleViewset(AbstractViewset):
     
     def get_object(self):
         obj = Role.objects.get_by_id(self.kwargs['pk'])
+        if Http404 is obj: raise NotFound("role not found", HTTP_404_NOT_FOUND)
         self.check_object_permissions(self.request, obj)
         return obj
     
@@ -37,8 +39,8 @@ class RoleTerminateViewset(AbstractViewset):
     
     def get_object(self):
         terminatedRole = Role.objects.terminate_role(self.kwargs['pk'])
-        if terminatedRole == Http404:
-            return Response("object not found", HTTP_404_NOT_FOUND)
+        if Http404 is terminatedRole: raise NotFound("role not found", HTTP_404_NOT_FOUND)
+
         self.check_object_permissions(self.request, terminatedRole)
         return terminatedRole
 

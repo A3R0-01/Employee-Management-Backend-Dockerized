@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from rest_framework.status import HTTP_201_CREATED
+from django.http import Http404
+from rest_framework.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
+from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from core.abstract.viewset import AbstractViewset, AbstractBulkViewset
 from rest_framework.permissions import AllowAny
@@ -16,6 +18,8 @@ class CompanyViewset(AbstractViewset):
         return Company.objects.all()
     def get_object(self):
         obj = Company.objects.get_by_id(self.kwargs['pk'])
+        if Http404 is obj: raise NotFound("company not found", HTTP_404_NOT_FOUND)
+
         self.check_object_permissions(self.request, obj)
         return obj
 

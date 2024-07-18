@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework.status import HTTP_201_CREATED
+from rest_framework.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
+from rest_framework.exceptions import NotFound
 from core.abstract.viewset import AbstractViewset, AbstractBulkViewset
 from .serializer import RegistrationSerializer
 from .models import Registration
@@ -17,6 +19,7 @@ class RegistrationViewset(AbstractViewset):
         return Registration.objects.all()
     def get_object(self):
         obj = Registration.objects.get_by_id(self.kwargs['pk'])
+        if Http404 is obj: raise NotFound("registration not found", HTTP_404_NOT_FOUND)
         self.check_object_permissions(self.request, obj)
         return obj
     

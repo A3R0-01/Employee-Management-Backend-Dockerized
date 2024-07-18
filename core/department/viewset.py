@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from django.http import Http404
 from django.db import transaction
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED
+from rest_framework.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
+from rest_framework.exceptions import NotFound
 from core.abstract.viewset import AbstractViewset, AbstractBulkViewset
 from .serializer import DepartmentSerializer
 from .models import Department
@@ -17,6 +19,7 @@ class DepartmentViewset(AbstractViewset):
         return Department.objects.all()
     def get_object(self):
         obj = Department.objects.get_by_id(self.kwargs['pk'])
+        if Http404 is obj: raise NotFound("Department not found", HTTP_404_NOT_FOUND)
         self.check_object_permissions(self.request, obj)
         return obj
     
